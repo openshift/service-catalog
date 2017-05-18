@@ -71,33 +71,33 @@ fi
 # Build image binaries for a subset of platforms. Image binaries are currently
 # linux-only, and are compiled with flags to make them static for use in Docker
 # images "FROM scratch".
-OS_BUILD_PLATFORMS=("${image_platforms[@]+"${image_platforms[@]}"}")
-os::build::build_static_binaries "${OS_IMAGE_COMPILE_TARGETS_LINUX[@]-}" "${OS_SCRATCH_IMAGE_COMPILE_TARGETS_LINUX[@]-}"
+#OS_BUILD_PLATFORMS=("${image_platforms[@]+"${image_platforms[@]}"}")
+#os::build::build_static_binaries "${OS_IMAGE_COMPILE_TARGETS_LINUX[@]-}" "${OS_SCRATCH_IMAGE_COMPILE_TARGETS_LINUX[@]-}"
 
 # Build the primary client/server for all platforms
 OS_BUILD_PLATFORMS=("${platforms[@]+"${platforms[@]}"}")
 os::build::build_binaries "${OS_CROSS_COMPILE_TARGETS[@]}"
 
 # Build the test binaries for the host platform
-OS_BUILD_PLATFORMS=("${test_platforms[@]+"${test_platforms[@]}"}")
-os::build::build_binaries "${OS_TEST_TARGETS[@]}"
+#OS_BUILD_PLATFORMS=("${test_platforms[@]+"${test_platforms[@]}"}")
+#os::build::build_binaries "${OS_TEST_TARGETS[@]}"
 
 # Make the primary client/server release.
-OS_BUILD_PLATFORMS=("${platforms[@]+"${platforms[@]}"}")
-OS_RELEASE_ARCHIVE="openshift-origin" \
-  os::build::place_bins "${OS_CROSS_COMPILE_BINARIES[@]}"
+#OS_BUILD_PLATFORMS=("${platforms[@]+"${platforms[@]}"}")
+#OS_RELEASE_ARCHIVE="openshift-origin" \
+#  os::build::place_bins "${OS_CROSS_COMPILE_BINARIES[@]}"
 
 # Make the image binaries release.
-OS_BUILD_PLATFORMS=("${image_platforms[@]+"${image_platforms[@]}"}")
-OS_RELEASE_ARCHIVE="openshift-origin-image" \
-  os::build::place_bins "${OS_IMAGE_COMPILE_BINARIES[@]}"
+#OS_BUILD_PLATFORMS=("${image_platforms[@]+"${image_platforms[@]}"}")
+#OS_RELEASE_ARCHIVE="openshift-origin-image" \
+#  os::build::place_bins "${OS_IMAGE_COMPILE_BINARIES[@]}"
 
-os::build::release_sha
+#os::build::release_sha
 
-if [[ "${OS_GIT_TREE_STATE:-dirty}" == "clean"  ]]; then
-	# only when we are building from a clean state can we claim to
-	# have created a valid set of binaries that can resemble a release
-	echo "${OS_GIT_COMMIT}" > "${OS_LOCAL_RELEASEPATH}/.commit"
-fi
+#if [[ "${OS_GIT_TREE_STATE:-dirty}" == "clean"  ]]; then
+#	# only when we are building from a clean state can we claim to
+#	# have created a valid set of binaries that can resemble a release
+#	echo "${OS_GIT_COMMIT}" > "${OS_LOCAL_RELEASEPATH}/.commit"
+#fi
 
 ret=$?; ENDTIME=$(date +%s); echo "$0 took $(($ENDTIME - $STARTTIME)) seconds"; exit "$ret"

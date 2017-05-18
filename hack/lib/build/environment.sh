@@ -151,7 +151,7 @@ function os::build::environment::withsource() {
   fi
 
   local workingdir
-  workingdir="$(docker inspect -f '{{ index . "Config" "WorkingDir" }}' "${container}")"
+  workingdir="/go/src/${OS_GO_PACKAGE}"
 
   if [[ -n "${OS_BUILD_ENV_FROM_ARCHIVE-}" ]]; then
     # Generate version definitions. Tree state is clean because we are pulling from git directly.

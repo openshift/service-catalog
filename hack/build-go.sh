@@ -27,9 +27,9 @@ if [[ -z "$@" ]]; then
 
   build_targets=("${OS_CROSS_COMPILE_TARGETS[@]}")
   # Also build SDN components on Linux by default
-  if [[ "${platform}" == linux/* ]]; then
-    build_targets=("${build_targets[@]}" "${OS_SDN_COMPILE_TARGETS_LINUX[@]}")
-  fi
+  #if [[ "${platform}" == linux/* ]]; then
+  #  build_targets=("${build_targets[@]}" "${OS_SDN_COMPILE_TARGETS_LINUX[@]}")
+  #fi
 fi
 
 

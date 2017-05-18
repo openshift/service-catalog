@@ -8,7 +8,7 @@
 # origin-deployer, etc.
 STARTTIME=$(date +%s)
 source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
-source "${OS_ROOT}/contrib/node/install-sdn.sh"
+#source "${OS_ROOT}/contrib/node/install-sdn.sh"
 
 if [[ "${OS_RELEASE:-}" == "n" ]]; then
 	# Use local binaries
