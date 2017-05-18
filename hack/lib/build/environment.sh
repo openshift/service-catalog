@@ -76,7 +76,7 @@ function os::build::environment::release::workingdir() {
   local container
   container="$(docker create "${release_image}")"
   local workingdir
-  workingdir="$(docker inspect -f '{{ index . "Config" "WorkingDir" }}' "${container}")"
+  workingdir="/go/src/${OS_GO_PACKAGE}"
   docker rm "${container}" > /dev/null
   echo "${workingdir}"
 }
@@ -117,7 +117,7 @@ function os::build::environment::start() {
   # extract content from the image
   if [[ -n "${OS_BUILD_ENV_PRESERVE-}" ]]; then
     local workingdir
-    workingdir="$(docker inspect -f '{{ index . "Config" "WorkingDir" }}' "${container}")"
+    workingdir="/go/src/${OS_GO_PACKAGE}"
     local oldIFS="${IFS}"
     IFS=:
     for path in ${OS_BUILD_ENV_PRESERVE}; do
