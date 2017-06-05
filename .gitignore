@@ -20,3 +20,5 @@ contrib/build/*/tmp/*
 .pkg
 .kube
 .var
+# this is for buildling service catalog with origin tooling
+_output
