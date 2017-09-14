@@ -717,6 +717,13 @@ function os::build::ldflags() {
 
   local buildDate="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 
+  # search git merge commits for template text and extract version
+  # subject template: Merge version v0.0.14 of Service Catalog from https://github.com/openshift/service-catalog:v0.0.14+origin
+  local summary_text=$(git log --merges --grep "Merge version v.* of Service Catalog from https://github.com/openshift/service-catalog" --pretty=%s -1)
+  if [[ $summary_text =~ Merge[[:space:]]version[[:space:]](v.*)[[:space:]]of[[:space:]]Service[[:space:]]Catalog ]]; then
+    sc_version=${BASH_REMATCH[1]}
+  fi
+
   declare -a ldflags=()
 
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/pkg/bootstrap/docker.defaultImageStreams" "${OS_BUILD_LDFLAGS_DEFAULT_IMAGE_STREAMS}"))
@@ -725,7 +732,7 @@ function os::build::ldflags() {
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/pkg/version.minorFromGit" "${OS_GIT_MINOR}"))
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/pkg/version.versionFromGit" "${OS_GIT_VERSION}"))
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/pkg/version.commitFromGit" "${OS_GIT_COMMIT}"))
-  # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/pkg/version.buildDate" "${buildDate}"))
+  ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/pkg/version.buildDate" "${buildDate}"))
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/vendor/k8s.io/kubernetes/pkg/version.gitCommit" "${KUBE_GIT_COMMIT}"))
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/vendor/k8s.io/kubernetes/pkg/version.gitVersion" "${KUBE_GIT_VERSION}"))
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/vendor/k8s.io/kubernetes/pkg/version.buildDate" "${buildDate}"))
@@ -735,8 +742,7 @@ function os::build::ldflags() {
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/vendor/k8s.io/client-go/pkg/version.buildDate" "${buildDate}"))
   # ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/vendor/k8s.io/client-go/pkg/version.gitTreeState" "clean"))
 
-  # TODO: not working in origin
-  #ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/pkg.VERSION" ${OS_GIT_VERSION}))
+  ldflags+=($(os::build::ldflag "${OS_GO_PACKAGE}/pkg.VERSION" $sc_version))
 
   # The -ldflags parameter takes a single string, so join the output.
   echo "${ldflags[*]-}"
