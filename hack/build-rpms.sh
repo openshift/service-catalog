@@ -89,7 +89,7 @@ else
 	fi
 
 	# migrate the rpm artifacts to the output directory, must be clean or move will fail
-	make clean
+	git clean -df -e ${OS_RPM_NAME}-${OS_RPM_VERSION}
 	mkdir -p "${OS_OUTPUT}"
 
 	# mv exits prematurely with status 1 in the following scenario: running as root,
