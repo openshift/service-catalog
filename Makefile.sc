@@ -110,8 +110,8 @@ ifdef NO_DOCKER
 	scBuildImageTarget =
 else
 	# Mount .pkg as pkg so that we save our cached "go build" output files
-	DOCKER_CMD = docker run --security-opt label:disable --rm -v $(PWD):/go/src/$(SC_PKG) \
-	  -v $(PWD)/.pkg:/go/pkg --env AZURE_STORAGE_CONNECTION_STRING scbuildimage
+	DOCKER_CMD = docker run --security-opt label:disable --rm -v $(CURDIR):/go/src/$(SC_PKG) \
+	  -v $(CURDIR)/.pkg:/go/pkg --env AZURE_STORAGE_CONNECTION_STRING scbuildimage
 	scBuildImageTarget = .scBuildImage
 endif
 
@@ -196,8 +196,8 @@ $(BINDIR):
 	mkdir -p $@
 
 .scBuildImage: build/build-image/Dockerfile
-	sed "s/GO_VERSION/$(GO_VERSION)/g" < build/build-image/Dockerfile | \
-	  docker build -t scbuildimage -
+	sed -i "s/GO_VERSION/$(GO_VERSION)/g" build/build-image/Dockerfile
+	docker build -t scbuildimage -f build/build-image/Dockerfile .
 	touch $@
 
 # Util targets

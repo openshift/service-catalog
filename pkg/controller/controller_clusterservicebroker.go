@@ -192,7 +192,7 @@ func (c *controller) reconcileClusterServiceBroker(broker *v1beta1.ClusterServic
 			return err
 		}
 
-		clientConfig := NewClientConfigurationForBroker(broker, authConfig)
+		clientConfig := NewClientConfigurationForBroker(broker.ObjectMeta, &broker.Spec.CommonServiceBrokerSpec, authConfig)
 
 		glog.V(4).Info(pcb.Messagef("Creating client, URL: %v", broker.Spec.URL))
 		brokerClient, err := c.brokerClientCreateFunc(clientConfig)
@@ -277,8 +277,8 @@ func (c *controller) reconcileClusterServiceBroker(broker *v1beta1.ClusterServic
 			return err
 		}
 
-		existingServiceClassMap := convertServiceClassListToMap(existingServiceClasses)
-		existingServicePlanMap := convertServicePlanListToMap(existingServicePlans)
+		existingServiceClassMap := convertClusterServiceClassListToMap(existingServiceClasses)
+		existingServicePlanMap := convertClusterServicePlanListToMap(existingServicePlans)
 
 		// reconcile the serviceClasses that were part of the broker's catalog
 		// payload
@@ -766,7 +766,7 @@ func (c *controller) getCurrentServiceClassesAndPlansForBroker(broker *v1beta1.C
 	return existingServiceClasses.Items, existingServicePlans.Items, nil
 }
 
-func convertServiceClassListToMap(list []v1beta1.ClusterServiceClass) map[string]*v1beta1.ClusterServiceClass {
+func convertClusterServiceClassListToMap(list []v1beta1.ClusterServiceClass) map[string]*v1beta1.ClusterServiceClass {
 	ret := make(map[string]*v1beta1.ClusterServiceClass, len(list))
 
 	for i := range list {
@@ -776,7 +776,7 @@ func convertServiceClassListToMap(list []v1beta1.ClusterServiceClass) map[string
 	return ret
 }
 
-func convertServicePlanListToMap(list []v1beta1.ClusterServicePlan) map[string]*v1beta1.ClusterServicePlan {
+func convertClusterServicePlanListToMap(list []v1beta1.ClusterServicePlan) map[string]*v1beta1.ClusterServicePlan {
 	ret := make(map[string]*v1beta1.ClusterServicePlan, len(list))
 
 	for i := range list {

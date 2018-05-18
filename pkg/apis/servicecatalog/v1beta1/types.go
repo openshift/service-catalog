@@ -910,8 +910,7 @@ type ServiceInstanceStatus struct {
 	OperationStartTime *metav1.Time `json:"operationStartTime,omitempty"`
 
 	// InProgressProperties is the properties state of the ServiceInstance when
-	// a Provision or Update is in progress. If the current operation is a
-	// Deprovision, this will be nil.
+	// a Provision, Update or Deprovision is in progress.
 	InProgressProperties *ServiceInstancePropertiesState `json:"inProgressProperties,omitempty"`
 
 	// ExternalProperties is the properties state of the ServiceInstance which the
@@ -1312,8 +1311,12 @@ const (
 	FilterSpecExternalName = "spec.externalName"
 	// SpecExternalID is the external id of the object.
 	FilterSpecExternalID = "spec.externalID"
+	// SpecServiceBrokerName is used for ServiceClasses, the parent service broker name.
+	FilterSpecServiceBrokerName = "spec.serviceBrokerName"
 	// SpecClusterServiceClassName is only used for plans, the parent service class name.
 	FilterSpecClusterServiceClassName = "spec.clusterServiceClass.name"
+	// SpecServiceClassName is only used for plans, the parent service class name.
+	FilterSpecServiceClassName = "spec.serviceClass.name"
 )
 
 // SecretTransform is a single transformation that is applied to the
