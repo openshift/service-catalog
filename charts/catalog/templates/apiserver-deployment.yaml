@@ -9,6 +9,8 @@ metadata:
     heritage: "{{ .Release.Service }}"
 spec:
   replicas: 1
+  strategy:
+    type: {{ .Values.deploymentStrategy }}
   selector:
     matchLabels:
       app: {{ template "fullname" . }}-apiserver
@@ -58,6 +60,8 @@ spec:
         {{- end }}
         - --feature-gates
         - OriginatingIdentity={{.Values.originatingIdentityEnabled}}
+        - --feature-gates
+        - ServicePlanDefaults={{.Values.servicePlanDefaultsEnabled}}
         {{- if .Values.namespacedServiceBrokerDisabled }}
         - --feature-gates
         - NamespacedServiceBroker=false
