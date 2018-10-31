@@ -21,7 +21,6 @@ import (
 
 	"github.com/kubernetes-incubator/service-catalog/cmd/svcat/command"
 	"github.com/kubernetes-incubator/service-catalog/cmd/svcat/output"
-	"github.com/kubernetes-incubator/service-catalog/pkg/apis/servicecatalog/v1beta1"
 	servicecatalog "github.com/kubernetes-incubator/service-catalog/pkg/svcat/service-catalog"
 	"github.com/spf13/cobra"
 )
@@ -76,12 +75,14 @@ func (c *describeCmd) Run() error {
 }
 
 func (c *describeCmd) describe() error {
-	var class *v1beta1.ClusterServiceClass
+	var class servicecatalog.Class
 	var err error
 	if c.lookupByUUID {
 		class, err = c.App.RetrieveClassByID(c.uuid)
 	} else {
-		class, err = c.App.RetrieveClassByName(c.name)
+		class, err = c.App.RetrieveClassByName(c.name, servicecatalog.ScopeOptions{
+			Scope: servicecatalog.ClusterScope,
+		})
 	}
 	if err != nil {
 		return err
@@ -89,7 +90,8 @@ func (c *describeCmd) describe() error {
 
 	output.WriteClassDetails(c.Output, class)
 
-	plans, err := c.App.RetrievePlans(servicecatalog.RetrievePlanOptions{Scope: servicecatalog.AllScope, ClassID: class.Name})
+	opts := servicecatalog.ScopeOptions{Scope: servicecatalog.AllScope}
+	plans, err := c.App.RetrievePlans(class.GetName(), opts)
 	if err != nil {
 		return err
 	}
