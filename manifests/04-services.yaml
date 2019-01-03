@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Service
+apiVersion: v1
+metadata:
+  name: controller-manager
+  namespace: kube-service-catalog
+  annotations:
+    service.alpha.openshift.io/serving-cert-secret-name: service-catalog-controller-manager-cert
+    prometheus.io/scrape: "true"
+    prometheus.io/scheme: https
+spec:
+  type: ClusterIP
+  selector:
+    app: controller-manager
+  ports:
+  - name: secure
+    protocol: TCP
+    port: 443
+    targetPort: 8444
