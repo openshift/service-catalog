@@ -89,6 +89,7 @@ kind: ClusterRoleBinding
 metadata:
   name: servicecatalog-serviceclass-viewer-binding
 roleRef:
+  apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: servicecatalog-serviceclass-viewer
 subjects:
@@ -100,9 +101,10 @@ kind: ClusterRoleBinding
 metadata:
   name: system:auth-delegator-binding
 roleRef:
+  apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: system:auth-delegator
 subjects:
 - kind: ServiceAccount
   name: service-catalog-apiserver
-  namespace: kube-service-catalog
+  namespace: openshift-operators
