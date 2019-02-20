@@ -1,6 +1,6 @@
 # Default values for Service Catalog
 # service-catalog image to use
-image: quay.io/kubernetes-service-catalog/service-catalog:v0.1.38
+image: quay.io/kubernetes-service-catalog/service-catalog:v0.1.39
 # imagePullPolicy for the service-catalog; valid values are "IfNotPresent",
 # "Never", and "Always"
 imagePullPolicy: Always
@@ -47,7 +47,7 @@ apiserver:
     requestHeaderCA:
   # Attributes of the apiserver's service resource
   service:
-    # Type of service; valid values are "LoadBalancer" and "NodePort"
+    # Type of service; valid values are "LoadBalancer", "NodePort" or "ClusterIP"
     # NodePort is useful if deploying on bare metal or hacking locally on
     # minikube
     type: NodePort

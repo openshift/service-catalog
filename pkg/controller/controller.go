@@ -495,9 +495,6 @@ func (c *controller) getClusterServiceClassAndClusterServiceBroker(instance *v1b
 			),
 		}
 	}
-	if err != nil {
-		return nil, "", nil, err
-	}
 
 	return serviceClass, broker.Name, brokerClient, nil
 }
@@ -539,10 +536,6 @@ func (c *controller) getServiceClassAndServiceBroker(instance *v1beta1.ServiceIn
 			),
 		}
 	}
-	if err != nil {
-		return nil, "", nil, err
-	}
-
 	return serviceClass, broker.Name, brokerClient, nil
 }
 
@@ -1441,4 +1434,9 @@ func shouldReconcileServiceBrokerCommon(pcb *pretty.ContextBuilder, brokerMeta *
 
 	// The broker didn't have a ready condition; we should reconcile it.
 	return true
+}
+
+func toJSON(obj interface{}) string {
+	bytes, _ := json.Marshal(obj)
+	return string(bytes)
 }
