@@ -38,7 +38,6 @@ func NewUPSBrokerPod(name string) *corev1.Pod {
 					Args: []string{
 						"--port",
 						"8080",
-						"-alsologtostderr",
 					},
 					Ports: []corev1.ContainerPort{
 						{
