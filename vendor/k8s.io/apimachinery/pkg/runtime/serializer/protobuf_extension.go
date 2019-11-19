@@ -44,5 +44,5 @@ func protobufSerializer(scheme *runtime.Scheme) (serializerType, bool) {
 }
 
 func init() {
-	serializerExtensions = append(serializerExtensions, protobufSerializer)
+	// serializerExtensions = append(serializerExtensions, protobufSerializer)
 }
