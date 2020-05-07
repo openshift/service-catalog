@@ -1,7 +1,13 @@
 approvers:
-- jpeeler
-- pmorie
-- jboyd01
-- eriknelson
 - jmrodri
+- fabianvf
 - shawn-hurley
+- joelanford
+- pmorie
+reviewers:
+- jmrodri
+- fabianvf
+- shawn-hurley
+- joelanford
+- pmorie
+component: "Service Catalog"
